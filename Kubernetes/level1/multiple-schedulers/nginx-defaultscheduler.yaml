@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginxds
+  name: nginxds
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginxds
+  template:
+    metadata:
+      labels:
+        app: nginxds
+    spec:
+      containers:
+      - image: nginx
+        name: nginxds

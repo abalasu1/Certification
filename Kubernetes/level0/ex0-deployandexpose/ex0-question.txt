@@ -1,0 +1,5 @@
+Question: (Time: 5 mins)
+a) Create a nginx deployment and expose the application to be accessed as a service
+using nodeport 31080
+b) Pod should be labelled app=ex0
+c) Scale the replicas to 3 after the initial deployment

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginxcs
+  name: nginxcs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginxcs
+  template:
+    metadata:
+      labels:
+        app: nginxcs
+    spec:
+      schedulerName: my-scheduler
+      containers:
+      - image: nginx
+        name: nginxcs

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ex0
+  name: ex0
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 31080
+  selector:
+    app: ex0
+  type: NodePort
+status:
+  loadBalancer: {}

@@ -1,0 +1,12 @@
+Solution:
+a) Kubernetes:
+- kubectl create deployment ex0 --dry-run=true -o yaml --image=nginx > ex0-deployment.yaml
+- Edit deployment to delete null fields (optional step)
+- Create the deployment (kubectl apply -f ex0-deployment.yaml)
+- Check  label assigned (kubectl describe $(kubectl get pods -l app=ex0 -o name) | grep -A 2 Label)
+- Scale the application (kubectl scale deployment --replicas=3 -l app=ex0)
+- Expose deployment (kubectl create svc nodeport nginx --dry-run=true -o yaml --tcp=80:80 > ex0-svc.yaml)
+- add the nodeport field (nodePort: 31080)
+- create the service (kubectl apply -f ex0-svc.yaml)
+
+b) OC:
