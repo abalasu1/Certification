@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-pod
+  labels:
+    my-label: test
+spec:
+  containers:
+  - name: print-pod
+    image: bash
+    command: ['bash', '-c', '--']
+    args: ['hostname > /tmp/hostname && sleep 30']
+

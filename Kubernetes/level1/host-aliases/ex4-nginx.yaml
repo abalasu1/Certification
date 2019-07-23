@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ex4-nginx
+  name: ex4-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex4-nginx
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ex4-nginx
+    spec:
+      hostAliases:
+        - ip: "127.0.0.1"
+          hostnames:
+          - "foo.local"
+          - "bar.local"
+        - ip: "192.168.2.24"
+          hostnames:
+          - "foo.remote"
+          - "bar.remote"
+      containers:
+      - image: nginx
+        name: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ex4-nginx
+  name: ex4-nginx
+spec:
+  ports:
+  - name: 80-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ex4-nginx
+  type: ClusterIP

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ex4-busybox
+  name: ex4-busybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ex4-busybox
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: ex4-busybox
+    spec:
+      containers:
+      - image: busybox
+        name: busybox
+        command: [ 'sh', '-c', '--' ]
+        args: [ 'while true; do sleep 10; done;' ]

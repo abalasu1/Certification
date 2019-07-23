@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: master
+  name: master
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: master
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: master
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - master
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - image: nginx
+        name: nginx

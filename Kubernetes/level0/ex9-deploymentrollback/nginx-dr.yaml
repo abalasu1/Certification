@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-dr
+  name: nginx-dr
+  namespace: one
+spec:
+  replicas: 15
+  selector:
+    matchLabels:
+      app: nginx-dr
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx-dr
+    spec:
+      containers:
+      - image: nginx:1.15.666
+        name: nginx

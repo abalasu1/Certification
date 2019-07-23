@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sidecar
+  name: sidecar
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: sidecar
+  template:
+    metadata:
+      labels:
+        app: sidecar
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - sidecar
+            topologyKey: "kubernetes.io/hostname"
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - master
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - image: busybox
+        name: busybox
+        command: [ 'sh', '-c', '--' ]
+        args: [ 'while true; do sleep 10; done;' ]
