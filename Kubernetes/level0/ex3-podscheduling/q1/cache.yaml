@@ -1,0 +1,117 @@
+apiVersion: v1
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: cache
+    name: cache
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: redis
+      from:
+        kind: DockerImage
+        name: redis
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: cache
+    name: cache
+  spec:
+    replicas: 3
+    selector:
+      app: cache
+      deploymentconfig: cache
+    strategy:
+      resources: {}
+    template:
+      metadata:
+        annotations:
+          openshift.io/generated-by: OpenShiftNewApp
+        creationTimestamp: null
+        labels:
+          app: cache
+          deploymentconfig: cache
+      spec:
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                    - cache
+                topologyKey: kubernetes.io/hostname
+        containers:
+        - image: redis
+          name: cache
+          ports:
+          - containerPort: 6379
+            protocol: TCP
+          resources: {}
+          volumeMounts:
+          - mountPath: /data
+            name: cache-volume-1
+        volumes:
+        - emptyDir: {}
+          name: cache-volume-1
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - cache
+        from:
+          kind: ImageStreamTag
+          name: cache:latest
+      type: ImageChange
+  status:
+    availableReplicas: 0
+    latestVersion: 0
+    observedGeneration: 0
+    replicas: 0
+    unavailableReplicas: 0
+    updatedReplicas: 0
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewApp
+    creationTimestamp: null
+    labels:
+      app: cache
+    name: cache
+  spec:
+    ports:
+    - name: 6379-tcp
+      port: 6379
+      protocol: TCP
+      targetPort: 6379
+    selector:
+      app: cache
+      deploymentconfig: cache
+  status:
+    loadBalancer: {}
+kind: List
+metadata: {}
