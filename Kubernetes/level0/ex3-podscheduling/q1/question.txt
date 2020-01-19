@@ -2,4 +2,4 @@ Create 2 pod definitions with following features:
 
 The first pod should be a web pod using nginx image. No two replicas of this pod can run on the same node.
 The second pod should a redis cache pod using redis image. No two replicas of redis pod cannot be on the same node.
-A web pod should be located whereever there is a web page.
+A web pod should be located whereever there is a redis cache.

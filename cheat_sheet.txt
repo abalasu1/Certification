@@ -1,0 +1,34 @@
+oc:
+1) shortcuts:
+alias ogp='oc get pods'
+alias odp='oc describe pod'
+
+2) get help with commands:
+oc run --help | grep "oc run"
+oc exec --help | grep "oc exec"
+
+3) create objects faster just by changing restart policy:
+--restart='Always': The restart policy for this Pod.  Legal values [Always, OnFailure, Never].  If set to 'Always' a 
+dc is created, if set to 'OnFailure' a job is created, if set to 'Never', a regular pod is created. For the latter two 
+--replicas must be 1.  Default 'Always', for CronJobs `Never`.
+oc run busybox --image=busybox --restart=Never --dry-run=true -o yaml
+oc run busybox --image=busybox --restart=Always --dry-run=true -o yaml
+oc run busybox --image=busybox --restart=OnFailure --dry-run=true -o yaml
+ 
+kubectl:
+1) shortcuts:
+alias k='kubectl'
+alias kgp='kubectl get pods'
+alias kdp='kubectl describe pod'
+
+2) get help with commands:
+kubectl run --help | grep "kubectl run"
+kubectl exec --help | grep "kubectl exec"
+
+3) create objects faster just by changing restart policy:
+--restart='Always': The restart policy for this Pod.  Legal values [Always, OnFailure, Never].  If set to 'Always' a 
+deployment is created, if set to 'OnFailure' a job is created, if set to 'Never', a regular pod is created. For the latter two 
+--replicas must be 1.  Default 'Always', for CronJobs `Never`.
+kubectl run busybox --image=busybox --restart=Never --dry-run=true -o yaml
+kubectl run busybox --image=busybox --restart=Always --dry-run=true -o yaml
+kubectl run busybox --image=busybox --restart=OnFailure --dry-run=true -o yaml
